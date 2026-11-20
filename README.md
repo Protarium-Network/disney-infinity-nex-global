@@ -13,7 +13,7 @@ NEX version, ports and environment prefix, defined in `version/`.
 
 | Game | Config file | Env prefix | Access key | NEX | Auth / secure UDP ports |
 | --- | --- | --- | --- | --- | --- |
-| Disney Infinity 1.0 | `version/dsi1.go` | `PN_DSI1_` | `2ef57176` | 2.0.0 | 29100 / 29101 |
+| Disney Infinity 1.0 | `version/dsi1.go` | `PN_DSI1_` | `2ef57176` | 3.5.1 | 29100 / 29101 |
 | Disney Infinity 3.0 | `version/dsi3.go` | `PN_DSI3_` | `83a601e5` | 3.9.1 | 29200 / 29201 |
 
 Adding a game means adding one file in `version/` (with `register(NewGame(...))`)
@@ -92,9 +92,10 @@ docker build -t disney-infinity-nex-global .
 ## Troubleshooting
 
 - **Console loops on CONNECT / error 106-0502**: the NEX version or access key
-  of the game is wrong. Disney Infinity 1.0 is configured as NEX 2.0.0 in
-  `version/dsi1.go`, which selects the legacy connection signature and no
-  structure headers; verify this first.
+  of the game is wrong. The NEX version and access key are set per game in
+  `version/dsi1.go` / `version/dsi3.go` (Disney Infinity 1.0 is NEX 3.5.1);
+  NEX 3.5.0 and newer use structure headers, and below 3.2.0 the legacy
+  connection signature is used. Verify these first.
 - **`UDP port N is used by both ...`**: two games have the same port, fix
   `PN_DSIx_AUTH_PORT` / `PN_DSIx_SECURE_PORT`.
 - **`... environment variable not set`**: a required variable is missing for a
